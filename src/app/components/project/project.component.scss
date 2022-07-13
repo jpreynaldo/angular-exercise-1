@@ -1,0 +1,51 @@
+.project {
+    width: 500px;
+    height: auto;
+    padding: 2em;
+    form {
+        input, select {
+            height: 30px;
+            padding: 1em;
+            line-height: 24px;
+        }
+        .alert-success {
+            background-color: rgb(59, 124, 94);
+            padding: 1em;
+            .validation {
+                color: #fff;
+            }
+        }
+        .alert-danger {
+            background-color: rgb(190, 100, 100);
+            padding: 1em;
+            .validation {
+                color: #fff;
+            }
+        }
+        .emp-est {
+            padding: 0 0 0 1em;
+            .emp-array {
+                display: grid;
+                grid-template-columns: 1fr 10fr; 
+            }
+            button {
+                height: 20px;
+                margin: 2em 0 0 0;
+            }
+        }
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin: 1em;
+        }
+    }
+    
+}
+.project-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .employee-time {
+        padding: 2em;
+        width: 50%;
+    }
+}

@@ -1,0 +1,85 @@
+<section class="project">
+    <h1>Add Project</h1>
+    <form [formGroup]="projectForm">
+        <div class="alert-success" *ngIf="saveMessage">
+            <span>Project Estimation successfully Added</span>
+        </div>
+        <div class="alert-danger" *ngIf="showEstValidation">
+            <span class="validation" >Warning: The total number of employee estimation exceeds the total estimate</span>
+        </div>
+        <div class="form-group">
+            <label for="project">Project Name</label>
+            <select formControlName="project" name="project" id="project">
+                <option value="0" [selected]="true">Select a Project</option>
+                <option *ngFor="let project of projectList" [value]="project.prjId">{{project?.prjName}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">Task Name</label>
+            <input formControlName="task" type="text">
+        </div>
+        <div class="form-group">
+            <label for=""> Total Estimate</label>
+            <input (keyup)="estValidation()" type="number" formControlName="totalEstimate" >
+        </div>
+        <div class="emp-est">
+            <div>
+                <label for="">Employee Estimations</label><br>
+                <button (click)="addEmployeeEst()">Add Employee Est</button>
+            </div>
+            <ng-container formArrayName="employeeEstimations">
+                <div class="emp-array" *ngFor="let empEst of employeeArray.controls; let i = index">
+                    <button class="remove-btn" (click)="removeEmployeeEst(i)">Remove</button>
+                    <div [formGroupName]="i">
+                        <div class="form-group">
+                            <label for="">Employee Name</label>
+                            <select formControlName="employee" name="employee" id="">
+                                <option value="">Select an Employee</option>
+                                <option *ngFor="let emp of employeeList" value="{{emp.empId}}">{{emp.empName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Estimate</label>
+                            <input (keyup)="estValidation()" formControlName="estimate" type="number">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Actual Hours</label>
+                            <input  type="number" formControlName="actualHours">
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <button type="submit" [disabled]="showEstValidation" (click)="saveProject(projectForm.value)">Save Project</button>
+    </form>
+</section>
+<div class="project-view" *ngIf="projectValue?.length !== 0">
+    <div class="employee-time">
+        <h1>Employees who took more time than expected</h1>
+        <div *ngFor="let project of projectValue">
+            <div *ngFor="let emp of project?.employeeEstimations">
+                <div *ngIf="emp?.estimate < emp?.actualHours">
+                    <h6>Project Name: {{viewName(project?.project, 'project')}}</h6>
+                    <h6>Task Name: {{project?.task}}</h6>
+                    <h6>Employee Name: {{viewName(emp?.empId, 'employee')}}</h6>
+                    <h6>Estimated Hours: {{emp?.estimate}}</h6>
+                    <h6>Actual Hours: {{emp?.actualHours}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="employee-time">
+        <h1>Employees who took more less time than expected</h1>
+        <div *ngFor="let project of projectValue">
+            <div *ngFor="let emp of project?.employeeEstimations">
+                <div *ngIf="emp?.estimate > emp?.actualHours">
+                    <h6>Project Name: {{viewName(project?.project, 'project')}}</h6>
+                    <h6>Task Name: {{project?.task}}</h6>
+                    <h6>Employee Name: {{viewName(emp?.empId, 'employee')}}</h6>
+                    <h6>Estimated Hours: {{emp?.estimate}}</h6>
+                    <h6>Actual Hours: {{emp?.actualHours}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
